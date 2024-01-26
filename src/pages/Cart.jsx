@@ -5,7 +5,9 @@ import { ToastContainer, toast } from "react-toastify";
 
 const Cart = () => {
     const productData = useSelector((state) => state.bazar.productData);
+    const userInfo = useSelector((state) => state.bazar.userInfo);
     const [totalAmt, setTotalAmt] = useState("");
+    const [payNow, setPayNow] = useState(false);
 
     useEffect(()=>{
         let price = 0;
@@ -15,6 +17,13 @@ const Cart = () => {
         });
         setTotalAmt(price);
     }, [productData])
+    const handleCheckout = () => {
+        if (userInfo){
+            setPayNow(true)
+        } else {
+            toast.error("Please sing in to Checkout");
+        }
+    }
     return (
         <div>
             <div className="max-w-screen-xl mx-auto py-20 flex">
@@ -38,9 +47,9 @@ const Cart = () => {
                     <p className="font-titleFont font-semibold flex justify-between mt-6">
                         Total <span className="text-xl font-bold">$ {totalAmt}</span>
                     </p>
-                    <button className="text-base bg-black text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300">
+                    <button onClick={handleCheckout} className="text-base bg-black text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300">
                         proceed to checkout
-                        </button>
+                    </button>
                 </div>
             </div>
             <ToastContainer 
