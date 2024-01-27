@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CartItem from "../components/CartItem";
 import { ToastContainer, toast } from "react-toastify";
+import StripeCheckout from "react-stripe-checkout";
 
 const Cart = () => {
     const productData = useSelector((state) => state.bazar.productData);
@@ -50,6 +51,20 @@ const Cart = () => {
                     <button onClick={handleCheckout} className="text-base bg-black text-white w-full py-3 mt-6 hover:bg-gray-800 duration-300">
                         proceed to checkout
                     </button>
+                    {
+                        payNow && (
+                        <div className="w-full mt-6 flex items-center justify-center">
+                            <StripeCheckout 
+                            stripeKey="pk_live_51Od1LYH74d7Zydnpe8ajWj3obYUuCKZmY2B4vPnqKO5sZBuLnce9mFsQgv7JT9K8yVlvHNV1myTpSzrGIxnx4ZEi001SBAhCUf"
+                            name="Online shopping"
+                            amount={totalAmt * 100}
+                            label="Pay to store"
+                            description={`Your Payment amount is $${totalAmt}`}
+                            //token={payment}
+                            email={userInfo.email}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
             <ToastContainer 
